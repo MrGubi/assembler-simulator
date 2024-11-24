@@ -1358,10 +1358,15 @@ var app = angular.module('ASMSimulator', []);
     $scope.displayB = false;
     $scope.displayC = false;
     $scope.displayD = false;
-    $scope.speeds = [{speed: 1, desc: "1 HZ"},
-                     {speed: 4, desc: "4 HZ"},
-                     {speed: 8, desc: "8 HZ"},
-                     {speed: 16, desc: "16 HZ"}];
+    $scope.speeds = [
+        {speed: 1, desc: "1 HZ"},
+        {speed: 4, desc: "4 HZ"},
+        {speed: 8, desc: "8 HZ"},
+        {speed: 16, desc: "16 HZ"},
+        {speed: 32, desc: "32 HZ"},
+        {speed: 64, desc: "64 HZ"},
+        {speed: 128, desc: "128 HZ"}
+    ];
     $scope.speed = 4;
     $scope.outputStartIndex = 232;
 
