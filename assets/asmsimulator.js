@@ -708,19 +708,30 @@ var app = angular.module('ASMSimulator', []);
                     return base+offset;
                 };
 
-                var checkOperation = function(value) {
+                var checkOperation = function(value, isRightShift,oldNumber,shift) {
                     self.zero = false;
                     self.carry = false;
 
-                    if (value >= 256) {
-                        self.carry = true;
-                        value = value % 256;
-                    } else if (value === 0) {
-                        self.zero = true;
-                    } else if (value < 0) {
-                        self.carry = true;
-                        value = 256 - (-value) % 256;
+                    if(isRightShift){
+                        if((oldNumber & ((1 << shift)-1)) !== 0){
+                            self.carry = true;
+                        }else if(value === 0){
+                            self.zero = true;
+                        }
+                        
+
+                    }else{
+                        if (value >= 256) {
+                            self.carry = true;
+                            value = value % 256;
+                        } else if (value === 0) {
+                            self.zero = true;
+                        } else if (value < 0) {
+                            self.carry = true;
+                            value = 256 - (-value) % 256;
+                        }
                     }
+            
 
                     return value;
                 };
@@ -1182,25 +1193,25 @@ var app = angular.module('ASMSimulator', []);
                     case opcodes.SHR_REG_WITH_REG:
                         regTo = checkGPR(memory.load(++self.ip));
                         regFrom = checkGPR(memory.load(++self.ip));
-                        self.gpr[regTo] = checkOperation(self.gpr[regTo] >>> self.gpr[regFrom]);
+                        self.gpr[regTo] = checkOperation(self.gpr[regTo] >>> self.gpr[regFrom],true,self.gpr[regTo],self.gpr[regFrom]);
                         self.ip++;
                         break;
                     case opcodes.SHR_REGADDRESS_WITH_REG:
                         regTo = checkGPR(memory.load(++self.ip));
                         regFrom = memory.load(++self.ip);
-                        self.gpr[regTo] = checkOperation(self.gpr[regTo] >>> memory.load(indirectRegisterAddress(regFrom)));
+                        self.gpr[regTo] = checkOperation(self.gpr[regTo] >>> memory.load(indirectRegisterAddress(regFrom)),true,self.gpr[regTo],self.gpr[regFrom]);
                         self.ip++;
                         break;
                     case opcodes.SHR_ADDRESS_WITH_REG:
                         regTo = checkGPR(memory.load(++self.ip));
                         memFrom = memory.load(++self.ip);
-                        self.gpr[regTo] = checkOperation(self.gpr[regTo] >>> memory.load(memFrom));
+                        self.gpr[regTo] = checkOperation(self.gpr[regTo] >>> memory.load(memFrom),true,self.gpr[regTo],memFrom);
                         self.ip++;
                         break;
                     case opcodes.SHR_NUMBER_WITH_REG:
                         regTo = checkGPR(memory.load(++self.ip));
                         number = memory.load(++self.ip);
-                        self.gpr[regTo] = checkOperation(self.gpr[regTo] >>> number);
+                        self.gpr[regTo] = checkOperation(self.gpr[regTo] >>> number,true,self.gpr[regTo],number);
                         self.ip++;
                         break;
                     default:
@@ -1348,6 +1359,7 @@ var app = angular.module('ASMSimulator', []);
     return opcodes;
 }]);
 ;app.controller('Ctrl', ['$document', '$scope', '$timeout', 'cpu', 'memory', 'assembler', function ($document, $scope, $timeout, cpu, memory, assembler) {
+    $scope.darkmode = false;
     $scope.memory = memory;
     $scope.cpu = cpu;
     $scope.error = '';
