@@ -110,7 +110,7 @@
                         <p style="margin-top:5px;">
                             <small>
                                 <span>Clock speed:</span>
-                                <select ng-model="speed" ng-options="item.speed as item.desc for item in speeds"></select>
+                                <select class="speed" ng-model="speed" ng-options="item.speed as item.desc for item in speeds"></select>
                                 <span style="margin-left:5px;">Instructions:</span>
                                 <a ng-click="displayInstr = true" ng-hide="displayInstr">Show</a>
                                 <a ng-click="displayInstr = false" ng-show="displayInstr">Hide</a>

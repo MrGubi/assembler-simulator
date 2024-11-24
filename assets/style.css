@@ -65,3 +65,101 @@
 .codelabel-line a {
     cursor: pointer;
 }
+
+@media (prefers-color-scheme: dark){
+    body {
+        background-color: #121212;
+        color: #E0E0E0;
+    }
+
+    .memory-block {
+        background-color: #2A2A2A;
+        border: 1px solid #4A4A4A;
+    }
+
+    .output, .output-bg {
+        background-color: #5a5a5a;
+    }
+
+    .output {
+        color: #E0E0E0;
+    }
+
+    .instr-bg {
+        background-color: #2A3D59;
+    }
+
+    .instr-bg a {
+        color: #A3D4F7;
+    }
+
+    .stack-bg {
+        background-color: #503C26;
+    }
+
+    .marker-ip {
+        background-color: #3579A5;
+    }
+
+    .marker-sp {
+        background-color: #D49037;
+    }
+
+    .marker-a {
+        background-color: #5C9C36;
+    }
+
+    .marker-b {
+        background-color: #36B38C;
+    }
+
+    .marker-c {
+        background-color: #7E2BB8;
+    }
+
+    .marker-d {
+        background-color: #D22828;
+    }
+
+    .codelabel-line a {
+        color: #A3D4F7;
+    }
+
+    .navbar-inverse {
+        background-color: #333333;
+        border: none;
+    }
+
+    .navbar-inverse .navbar-brand {
+        color: #E0E0E0;
+    }
+
+    .navbar-inverse .navbar-nav > li > a {
+        color: #A3D4F7;
+    }
+
+    .panel-default {
+        background-color: #2A2A2A;
+        border: 1px solid #444444;
+    }
+
+    body .panel-default .panel-heading {
+        background-color: #444444;
+        border-color: #555555;
+        color: #E0E0E0;
+    }
+
+    .panel-body {
+        color: #E0E0E0;
+    }
+    #sourceCode{
+        background-color: #444444;
+        color: #E0E0E0;
+    }
+    .table-striped>tbody>tr:nth-of-type(odd) {
+        background-color: #444444;
+    }
+    .speed {
+        background-color: #444444;
+    }
+}
