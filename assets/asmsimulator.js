@@ -715,7 +715,8 @@ var app = angular.module('ASMSimulator', []);
                     if(isRightShift){
                         if((oldNumber & ((1 << shift)-1)) !== 0){
                             self.carry = true;
-                        }else if(value === 0){
+                        }
+                        if(value === 0){
                             self.zero = true;
                         }
                         
@@ -1399,7 +1400,7 @@ var app = angular.module('ASMSimulator', []);
 
             // Mark in code
             if (cpu.ip in $scope.mapping) {
-                $scope.selectedLine = $scope.mapping[cpu.ip];
+                editorSelectLine(cpu.ip)
             }
 
             return res;
@@ -1471,7 +1472,13 @@ var app = angular.module('ASMSimulator', []);
         } catch (e) {
             if (e.line !== undefined) {
                 $scope.error = e.line + " | " + e.error;
-                $scope.selectedLine = e.line;
+                try{
+                    editorSelectLine(e.line)
+                }
+                catch(e){
+                    console.log(e)
+                }
+                
             } else {
                 $scope.error = e.error;
             }
@@ -1479,12 +1486,13 @@ var app = angular.module('ASMSimulator', []);
     };
 
     $scope.jumpToLine = function (index) {
-        editor.setSelection({ line: $scope.mapping[index], ch: 0 }, { line: $scope.mapping[index], ch: 1000 });  // Line 5, start to end of the line
-        //$document[0].getElementById('sourceCode').scrollIntoView();
-        //$scope.selectedLine = $scope.mapping[index];
-        //console.log($scope.mapping[index])
+        editorSelectLine(index)
     };
 
+    function editorSelectLine(index){
+        console.log("index: ",index)
+        editor.setSelection({ line: $scope.mapping[index], ch: 0 }, { line: $scope.mapping[index], ch: 1000 });
+    }
 
     $scope.isInstruction = function (index) {
         return $scope.mapping !== undefined &&
@@ -1538,47 +1546,47 @@ var app = angular.module('ASMSimulator', []);
     };
 });
 ;// Source: http://lostsource.com/2012/11/30/selecting-textarea-line.html
-app.directive('selectLine', [function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attrs, controller) {
-            scope.$watch('selectedLine', function () {
-                if (scope.selectedLine >= 0) {
-                    var lines = element[0].value.split("\n");
+// app.directive('selectLine', [function () {
+//     return {
+//         restrict: 'A',
+//         link: function (scope, element, attrs, controller) {
+//             scope.$watch('selectedLine', function () {
+//                 if (scope.selectedLine >= 0) {
+//                     var lines = element[0].value.split("\n");
 
-                    // Calculate start/end
-                    var startPos = 0;
-                    for (var x = 0; x < lines.length; x++) {
-                        if (x == scope.selectedLine) {
-                            break;
-                        }
-                        startPos += (lines[x].length + 1);
-                    }
+//                     // Calculate start/end
+//                     var startPos = 0;
+//                     for (var x = 0; x < lines.length; x++) {
+//                         if (x == scope.selectedLine) {
+//                             break;
+//                         }
+//                         startPos += (lines[x].length + 1);
+//                     }
 
-                    var endPos = lines[scope.selectedLine].length + startPos;
+//                     var endPos = lines[scope.selectedLine].length + startPos;
 
-                    // Chrome / Firefox
-                    if (typeof(element[0].selectionStart) != "undefined") {
-                        element[0].focus();
-                        element[0].selectionStart = startPos;
-                        element[0].selectionEnd = endPos;
-                    }
+//                     // Chrome / Firefox
+//                     if (typeof(element[0].selectionStart) != "undefined") {
+//                         element[0].focus();
+//                         element[0].selectionStart = startPos;
+//                         element[0].selectionEnd = endPos;
+//                     }
 
-                    // IE
-                    if (document.selection && document.selection.createRange) {
-                        element[0].focus();
-                        element[0].select();
-                        var range = document.selection.createRange();
-                        range.collapse(true);
-                        range.moveEnd("character", endPos);
-                        range.moveStart("character", startPos);
-                        range.select();
-                    }
-                }
-            });
-        }
-    };
-}]);
+//                     // IE
+//                     if (document.selection && document.selection.createRange) {
+//                         element[0].focus();
+//                         element[0].select();
+//                         var range = document.selection.createRange();
+//                         range.collapse(true);
+//                         range.moveEnd("character", endPos);
+//                         range.moveStart("character", startPos);
+//                         range.select();
+//                     }
+//                 }
+//             });
+//         }
+//     };
+// }]);
 ;app.filter('startFrom', function() {
     return function(input, start) {
         start = +start; //parse to int
