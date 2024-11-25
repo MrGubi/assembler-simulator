@@ -1359,7 +1359,6 @@ var app = angular.module('ASMSimulator', []);
     return opcodes;
 }]);
 ;app.controller('Ctrl', ['$document', '$scope', '$timeout', 'cpu', 'memory', 'assembler', function ($document, $scope, $timeout, cpu, memory, assembler) {
-    $scope.darkmode = false;
     $scope.memory = memory;
     $scope.cpu = cpu;
     $scope.error = '';
@@ -1381,8 +1380,6 @@ var app = angular.module('ASMSimulator', []);
     ];
     $scope.speed = 4;
     $scope.outputStartIndex = 232;
-
-    $scope.code = "; Simple example\n; Writes Hello World to the output\n\n	JMP start\nhello: DB \"Hello World!\" ; Variable\n       DB 0	; String terminator\n\nstart:\n	MOV C, hello    ; Point to var \n	MOV D, 232	; Point to output\n	CALL print\n        HLT             ; Stop execution\n\nprint:			; print(C:*from, D:*to)\n	PUSH A\n	PUSH B\n	MOV B, 0\n.loop:\n	MOV A, [C]	; Get char from var\n	MOV [D], A	; Write to output\n	INC C\n	INC D  \n	CMP B, [C]	; Check if end\n	JNZ .loop	; jump if not\n\n	POP B\n	POP A\n	RET";
 
     $scope.reset = function () {
         cpu.reset();
@@ -1457,8 +1454,11 @@ var app = angular.module('ASMSimulator', []);
         try {
             $scope.reset();
 
-            var assembly = assembler.go($scope.code);
+            var assembly = assembler.go(editor.getValue());
+            console.log("raw ",editor.getValue())
+            console.log("comped ",assembler.go(editor.getValue()))
             $scope.mapping = assembly.mapping;
+            console.log("mapping ",$scope.mapping)
             var binary = assembly.code;
             $scope.labels = assembly.labels;
 
@@ -1479,8 +1479,10 @@ var app = angular.module('ASMSimulator', []);
     };
 
     $scope.jumpToLine = function (index) {
-        $document[0].getElementById('sourceCode').scrollIntoView();
-        $scope.selectedLine = $scope.mapping[index];
+        editor.setSelection({ line: $scope.mapping[index], ch: 0 }, { line: $scope.mapping[index], ch: 1000 });  // Line 5, start to end of the line
+        //$document[0].getElementById('sourceCode').scrollIntoView();
+        //$scope.selectedLine = $scope.mapping[index];
+        //console.log($scope.mapping[index])
     };
 
 
@@ -1603,3 +1605,11 @@ app.directive('selectLine', [function () {
         }
     };
 }]);
+var editor = CodeMirror(document.getElementById("sourceCode"), {
+    lineNumbers: true,          // Show line numbers on the left
+    mode: "assembly",           // Set the mode to assembly language
+    theme: "dracula",           // Choose a theme (optional, you can choose a light or dark theme)
+    indentUnit: 4,              // Number of spaces for indentation
+    tabSize: 2,                 // Set tab size
+    lineWrapping: true          // Allow code to wrap onto multiple lines if necessary
+});
