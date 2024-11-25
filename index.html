@@ -10,14 +10,12 @@
     <!-- Include CodeMirror CSS (for editor styling) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/codemirror.min.css">
 
-    <!-- Optional: Include a CodeMirror Theme (e.g., Dracula or any other) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/theme/dracula.min.css">
+    <!-- Optional: Include a CodeMirror Theme (lesser-dark) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/theme/lesser-dark.min.css">
 
     <!-- Include CodeMirror core JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/codemirror.min.js"></script>
 
-    <!-- Include CodeMirror Mode for Assembly Language (syntax highlighting) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.6/mode/assembly/assembly.min.js"></script>
 </head>
 <body ng-controller="Ctrl">
     <a href="https://github.com/Schweigi/assembler-simulator"><img style="z-index:1001;position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
@@ -46,13 +44,6 @@
                     </div>
                     <div class="panel-body">
                         <form role="form">
-                            <!-- <textarea id="sourceCode"
-                                      class="form-control source-code"
-                                      style="margin-bottom:5px;"
-                                      rows="35"
-                                      tab-support
-                                      select-line
-                                      ng-model="code"></textarea> -->
                             <div id="sourceCode" class="code" style="height: auto;"></div>
                             <button type="button" class="btn btn-default" ng-click="assemble()">Assemble</button>
                         </form>

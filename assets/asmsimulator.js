@@ -1615,8 +1615,10 @@ var app = angular.module('ASMSimulator', []);
 }]);
 var editor = CodeMirror(document.getElementById("sourceCode"), {
     lineNumbers: true,          // Show line numbers on the left
-    mode: "assembly",           // Set the mode to assembly language
-    theme: "dracula",           // Choose a theme (optional, you can choose a light or dark theme)
+    lineNumberFormatter: function(line) {
+        return line - 1;  // Subtract 1 to make line numbers start at 0
+      },
+    theme: "lesser-dark",           // Choose a theme (optional, you can choose a light or dark theme)
     indentUnit: 4,              // Number of spaces for indentation
     tabSize: 2,                 // Set tab size
     lineWrapping: true          // Allow code to wrap onto multiple lines if necessary
