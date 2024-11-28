@@ -5,10 +5,17 @@
 .output, .output-bg {
     background-color: #DFDFDF;
 }
-.container {
+.header {
     justify-content: center;
     display: flex;
 }
+
+pre {
+    background-color: #2A2A2A;
+    color: #E0E0E0;
+    border: solid 1px #E0E0E0;
+}
+
 .output {
     width: 1em;
     margin-right: 1px;
