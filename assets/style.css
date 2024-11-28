@@ -5,7 +5,10 @@
 .output, .output-bg {
     background-color: #DFDFDF;
 }
-
+.container {
+    justify-content: center;
+    display: flex;
+}
 .output {
     width: 1em;
     margin-right: 1px;
@@ -30,6 +33,15 @@
     width: 1.8em;
     display: inline-block;
     text-align: center;
+}
+
+.panel-mem {
+    display: flex; 
+    justify-content: space-between;
+}
+
+.panel-mem-title {
+
 }
 
 .marker {
